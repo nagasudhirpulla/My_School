@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS `my_school`.`persons` (
   `password` VARCHAR(300) NULL,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `dob` DATETIME NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -167,11 +168,18 @@ CREATE TABLE IF NOT EXISTS `my_school`.`buses` (
   `from_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `to_date` DATETIME NULL,
   `phone` VARCHAR(15) NULL,
+  `driver_persons_id` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_buses_schools1_idx` (`schools_id` ASC),
+  INDEX `fk_buses_persons1_idx` (`driver_persons_id` ASC),
   CONSTRAINT `fk_buses_schools1`
     FOREIGN KEY (`schools_id`)
     REFERENCES `my_school`.`schools` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_buses_persons1`
+    FOREIGN KEY (`driver_persons_id`)
+    REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -311,11 +319,19 @@ CREATE TABLE IF NOT EXISTS `my_school`.`exams` (
   `name` VARCHAR(50) NOT NULL,
   `date` DATETIME NOT NULL,
   `subjects_id` INT NOT NULL,
+  `max_marks` INT NOT NULL DEFAULT 100,
+  `invigilator_persons_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_exams_subjects1_idx` (`subjects_id` ASC),
+  INDEX `fk_exams_persons1_idx` (`invigilator_persons_id` ASC),
   CONSTRAINT `fk_exams_subjects1`
     FOREIGN KEY (`subjects_id`)
     REFERENCES `my_school`.`subjects` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_exams_persons1`
+    FOREIGN KEY (`invigilator_persons_id`)
+    REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -327,6 +343,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `my_school`.`exams_has_sections` (
   `exams_id` INT NOT NULL,
   `sections_id` INT NOT NULL,
+  `from_time` DATETIME NULL,
+  `to_time` DATETIME NULL,
   PRIMARY KEY (`exams_id`, `sections_id`),
   INDEX `fk_exams_has_sections_sections1_idx` (`sections_id` ASC),
   INDEX `fk_exams_has_sections_exams1_idx` (`exams_id` ASC),
@@ -350,6 +368,8 @@ CREATE TABLE IF NOT EXISTS `my_school`.`marks` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `exams_id` INT NOT NULL,
   `persons_id` INT NOT NULL,
+  `marks` DECIMAL NULL,
+  `issued_on` DATETIME NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_marks_exams1_idx` (`exams_id` ASC),
   INDEX `fk_marks_persons1_idx` (`persons_id` ASC),
@@ -378,6 +398,7 @@ CREATE TABLE IF NOT EXISTS `my_school`.`timetables` (
   `subjects_id` INT NOT NULL,
   `teachers_id` INT NOT NULL,
   `sections_id` INT NOT NULL,
+  `day` INT NOT NULL DEFAULT 8,
   PRIMARY KEY (`id`),
   INDEX `fk_timetables_subjects1_idx` (`subjects_id` ASC),
   INDEX `fk_timetables_teachers1_idx` (`teachers_id` ASC),
@@ -452,6 +473,7 @@ CREATE TABLE IF NOT EXISTS `my_school`.`announcements` (
   `persons_id` INT NOT NULL,
   `content` VARCHAR(500) NOT NULL DEFAULT 'none',
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `subject` VARCHAR(150) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_announcements_schools1_idx` (`schools_id` ASC),
   INDEX `fk_announcements_classes1_idx` (`classes_id` ASC),
@@ -578,9 +600,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `my_school`.`forum_comments`
+-- Table `my_school`.`forum_posts`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `my_school`.`forum_comments` (
+CREATE TABLE IF NOT EXISTS `my_school`.`forum_posts` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `content` VARCHAR(300) NOT NULL,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -589,14 +611,39 @@ CREATE TABLE IF NOT EXISTS `my_school`.`forum_comments` (
   PRIMARY KEY (`id`),
   INDEX `fk_forum_comments_forums1_idx` (`forums_id` ASC),
   INDEX `fk_forum_comments_persons1_idx` (`persons_id` ASC),
-  CONSTRAINT `fk_forum_comments_forums1`
+  CONSTRAINT `fk_forum_comments_forums10`
     FOREIGN KEY (`forums_id`)
     REFERENCES `my_school`.`forums` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
+  CONSTRAINT `fk_forum_comments_persons11`
+    FOREIGN KEY (`persons_id`)
+    REFERENCES `my_school`.`persons` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `my_school`.`forum_comments`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `my_school`.`forum_comments` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `content` VARCHAR(300) NOT NULL,
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `persons_id` INT NOT NULL,
+  `forum_posts_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_forum_comments_persons1_idx` (`persons_id` ASC),
+  INDEX `fk_forum_comments_forum_posts1_idx` (`forum_posts_id` ASC),
   CONSTRAINT `fk_forum_comments_persons1`
     FOREIGN KEY (`persons_id`)
     REFERENCES `my_school`.`persons` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_forum_comments_forum_posts1`
+    FOREIGN KEY (`forum_posts_id`)
+    REFERENCES `my_school`.`forum_posts` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
