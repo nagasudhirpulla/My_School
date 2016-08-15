@@ -106,6 +106,7 @@ CREATE TABLE IF NOT EXISTS `my_school`.`admins` (
 CREATE TABLE IF NOT EXISTS `my_school`.`students` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `persons_id` INT NOT NULL,
+  `roll_number` VARCHAR(10) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_students_persons1_idx` (`persons_id` ASC),
   CONSTRAINT `fk_students_persons1`
