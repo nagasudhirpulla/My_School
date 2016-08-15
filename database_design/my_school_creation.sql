@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `my_school`.`persons` (
   `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `dob` DATETIME NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `my_school`.`schools` (
   `phone` VARCHAR(150) NOT NULL DEFAULT 'none',
   `gps` VARCHAR(100) NOT NULL DEFAULT 'none',
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -53,11 +53,11 @@ CREATE TABLE IF NOT EXISTS `my_school`.`classes` (
   PRIMARY KEY (`id`),
   INDEX `fk_classes_schools1_idx` (`schools_id` ASC),
   CONSTRAINT `fk_classes_schools1`
-    FOREIGN KEY (`schools_id`)
-    REFERENCES `my_school`.`schools` (`id`)
+  FOREIGN KEY (`schools_id`)
+  REFERENCES `my_school`.`schools` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -70,11 +70,11 @@ CREATE TABLE IF NOT EXISTS `my_school`.`sections` (
   PRIMARY KEY (`id`),
   INDEX `fk_section_class_idx` (`class_id` ASC),
   CONSTRAINT `fk_section_class`
-    FOREIGN KEY (`class_id`)
-    REFERENCES `my_school`.`classes` (`id`)
+  FOREIGN KEY (`class_id`)
+  REFERENCES `my_school`.`classes` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -88,16 +88,16 @@ CREATE TABLE IF NOT EXISTS `my_school`.`admins` (
   INDEX `fk_admins_persons1_idx` (`persons_id` ASC),
   INDEX `fk_admins_schools1_idx` (`schools_id` ASC),
   CONSTRAINT `fk_admins_persons1`
-    FOREIGN KEY (`persons_id`)
-    REFERENCES `my_school`.`persons` (`id`)
+  FOREIGN KEY (`persons_id`)
+  REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_admins_schools1`
-    FOREIGN KEY (`schools_id`)
-    REFERENCES `my_school`.`schools` (`id`)
+  FOREIGN KEY (`schools_id`)
+  REFERENCES `my_school`.`schools` (`id`)
     ON DELETE SET NULL
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -109,11 +109,11 @@ CREATE TABLE IF NOT EXISTS `my_school`.`students` (
   PRIMARY KEY (`id`),
   INDEX `fk_students_persons1_idx` (`persons_id` ASC),
   CONSTRAINT `fk_students_persons1`
-    FOREIGN KEY (`persons_id`)
-    REFERENCES `my_school`.`persons` (`id`)
+  FOREIGN KEY (`persons_id`)
+  REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -130,16 +130,16 @@ CREATE TABLE IF NOT EXISTS `my_school`.`teachers` (
   INDEX `fk_teachers_persons1_idx` (`persons_id` ASC),
   INDEX `fk_teachers_schools1_idx` (`schools_id` ASC),
   CONSTRAINT `fk_teachers_persons1`
-    FOREIGN KEY (`persons_id`)
-    REFERENCES `my_school`.`persons` (`id`)
+  FOREIGN KEY (`persons_id`)
+  REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_teachers_schools1`
-    FOREIGN KEY (`schools_id`)
-    REFERENCES `my_school`.`schools` (`id`)
+  FOREIGN KEY (`schools_id`)
+  REFERENCES `my_school`.`schools` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -151,11 +151,11 @@ CREATE TABLE IF NOT EXISTS `my_school`.`parents` (
   PRIMARY KEY (`id`),
   INDEX `fk_parents_persons1_idx` (`persons_id` ASC),
   CONSTRAINT `fk_parents_persons1`
-    FOREIGN KEY (`persons_id`)
-    REFERENCES `my_school`.`persons` (`id`)
+  FOREIGN KEY (`persons_id`)
+  REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -173,16 +173,16 @@ CREATE TABLE IF NOT EXISTS `my_school`.`buses` (
   INDEX `fk_buses_schools1_idx` (`schools_id` ASC),
   INDEX `fk_buses_persons1_idx` (`driver_persons_id` ASC),
   CONSTRAINT `fk_buses_schools1`
-    FOREIGN KEY (`schools_id`)
-    REFERENCES `my_school`.`schools` (`id`)
+  FOREIGN KEY (`schools_id`)
+  REFERENCES `my_school`.`schools` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_buses_persons1`
-    FOREIGN KEY (`driver_persons_id`)
-    REFERENCES `my_school`.`persons` (`id`)
+  FOREIGN KEY (`driver_persons_id`)
+  REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -193,7 +193,7 @@ CREATE TABLE IF NOT EXISTS `my_school`.`subjects` (
   `name` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC))
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -206,16 +206,16 @@ CREATE TABLE IF NOT EXISTS `my_school`.`students_has_parents` (
   INDEX `fk_students_has_parents_parents1_idx` (`parents_id` ASC),
   INDEX `fk_students_has_parents_students1_idx` (`students_id` ASC),
   CONSTRAINT `fk_students_has_parents_students1`
-    FOREIGN KEY (`students_id`)
-    REFERENCES `my_school`.`students` (`id`)
+  FOREIGN KEY (`students_id`)
+  REFERENCES `my_school`.`students` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_students_has_parents_parents1`
-    FOREIGN KEY (`parents_id`)
-    REFERENCES `my_school`.`parents` (`id`)
+  FOREIGN KEY (`parents_id`)
+  REFERENCES `my_school`.`parents` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -231,16 +231,16 @@ CREATE TABLE IF NOT EXISTS `my_school`.`teachers_has_subjects` (
   INDEX `fk_teachers_has_subjects_teachers1_idx` (`teachers_id` ASC),
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_teachers_has_subjects_teachers1`
-    FOREIGN KEY (`teachers_id`)
-    REFERENCES `my_school`.`teachers` (`id`)
+  FOREIGN KEY (`teachers_id`)
+  REFERENCES `my_school`.`teachers` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_teachers_has_subjects_subjects1`
-    FOREIGN KEY (`subjects_id`)
-    REFERENCES `my_school`.`subjects` (`id`)
+  FOREIGN KEY (`subjects_id`)
+  REFERENCES `my_school`.`subjects` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -256,16 +256,16 @@ CREATE TABLE IF NOT EXISTS `my_school`.`sections_has_students` (
   INDEX `fk_sections_has_students_sections1_idx` (`sections_id` ASC),
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_sections_has_students_sections1`
-    FOREIGN KEY (`sections_id`)
-    REFERENCES `my_school`.`sections` (`id`)
+  FOREIGN KEY (`sections_id`)
+  REFERENCES `my_school`.`sections` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_sections_has_students_students1`
-    FOREIGN KEY (`students_id`)
-    REFERENCES `my_school`.`students` (`id`)
+  FOREIGN KEY (`students_id`)
+  REFERENCES `my_school`.`students` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -281,16 +281,16 @@ CREATE TABLE IF NOT EXISTS `my_school`.`buses_has_persons` (
   INDEX `fk_buses_has_persons_persons1_idx` (`persons_id` ASC),
   INDEX `fk_buses_has_persons_buses1_idx` (`buses_id` ASC),
   CONSTRAINT `fk_buses_has_persons_buses1`
-    FOREIGN KEY (`buses_id`)
-    REFERENCES `my_school`.`buses` (`id`)
+  FOREIGN KEY (`buses_id`)
+  REFERENCES `my_school`.`buses` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_buses_has_persons_persons1`
-    FOREIGN KEY (`persons_id`)
-    REFERENCES `my_school`.`persons` (`id`)
+  FOREIGN KEY (`persons_id`)
+  REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -304,11 +304,11 @@ CREATE TABLE IF NOT EXISTS `my_school`.`attendances` (
   PRIMARY KEY (`id`),
   INDEX `fk_attendances_persons1_idx` (`persons_id` ASC),
   CONSTRAINT `fk_attendances_persons1`
-    FOREIGN KEY (`persons_id`)
-    REFERENCES `my_school`.`persons` (`id`)
+  FOREIGN KEY (`persons_id`)
+  REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -325,16 +325,16 @@ CREATE TABLE IF NOT EXISTS `my_school`.`exams` (
   INDEX `fk_exams_subjects1_idx` (`subjects_id` ASC),
   INDEX `fk_exams_persons1_idx` (`invigilator_persons_id` ASC),
   CONSTRAINT `fk_exams_subjects1`
-    FOREIGN KEY (`subjects_id`)
-    REFERENCES `my_school`.`subjects` (`id`)
+  FOREIGN KEY (`subjects_id`)
+  REFERENCES `my_school`.`subjects` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_exams_persons1`
-    FOREIGN KEY (`invigilator_persons_id`)
-    REFERENCES `my_school`.`persons` (`id`)
+  FOREIGN KEY (`invigilator_persons_id`)
+  REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -349,16 +349,16 @@ CREATE TABLE IF NOT EXISTS `my_school`.`exams_has_sections` (
   INDEX `fk_exams_has_sections_sections1_idx` (`sections_id` ASC),
   INDEX `fk_exams_has_sections_exams1_idx` (`exams_id` ASC),
   CONSTRAINT `fk_exams_has_sections_exams1`
-    FOREIGN KEY (`exams_id`)
-    REFERENCES `my_school`.`exams` (`id`)
+  FOREIGN KEY (`exams_id`)
+  REFERENCES `my_school`.`exams` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_exams_has_sections_sections1`
-    FOREIGN KEY (`sections_id`)
-    REFERENCES `my_school`.`sections` (`id`)
+  FOREIGN KEY (`sections_id`)
+  REFERENCES `my_school`.`sections` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -374,16 +374,16 @@ CREATE TABLE IF NOT EXISTS `my_school`.`marks` (
   INDEX `fk_marks_exams1_idx` (`exams_id` ASC),
   INDEX `fk_marks_persons1_idx` (`persons_id` ASC),
   CONSTRAINT `fk_marks_exams1`
-    FOREIGN KEY (`exams_id`)
-    REFERENCES `my_school`.`exams` (`id`)
+  FOREIGN KEY (`exams_id`)
+  REFERENCES `my_school`.`exams` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_marks_persons1`
-    FOREIGN KEY (`persons_id`)
-    REFERENCES `my_school`.`persons` (`id`)
+  FOREIGN KEY (`persons_id`)
+  REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -404,21 +404,21 @@ CREATE TABLE IF NOT EXISTS `my_school`.`timetables` (
   INDEX `fk_timetables_teachers1_idx` (`teachers_id` ASC),
   INDEX `fk_timetables_sections1_idx` (`sections_id` ASC),
   CONSTRAINT `fk_timetables_subjects1`
-    FOREIGN KEY (`subjects_id`)
-    REFERENCES `my_school`.`subjects` (`id`)
+  FOREIGN KEY (`subjects_id`)
+  REFERENCES `my_school`.`subjects` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_timetables_teachers1`
-    FOREIGN KEY (`teachers_id`)
-    REFERENCES `my_school`.`teachers` (`id`)
+  FOREIGN KEY (`teachers_id`)
+  REFERENCES `my_school`.`teachers` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_timetables_sections1`
-    FOREIGN KEY (`sections_id`)
-    REFERENCES `my_school`.`sections` (`id`)
+  FOREIGN KEY (`sections_id`)
+  REFERENCES `my_school`.`sections` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -433,11 +433,11 @@ CREATE TABLE IF NOT EXISTS `my_school`.`feedbacks` (
   PRIMARY KEY (`id`),
   INDEX `fk_feedbacks_persons1_idx` (`sender_persons_id` ASC),
   CONSTRAINT `fk_feedbacks_persons1`
-    FOREIGN KEY (`sender_persons_id`)
-    REFERENCES `my_school`.`persons` (`id`)
+  FOREIGN KEY (`sender_persons_id`)
+  REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -450,16 +450,16 @@ CREATE TABLE IF NOT EXISTS `my_school`.`feedbacks_has_receivers` (
   INDEX `fk_feedbacks_has_persons_persons1_idx` (`persons_id` ASC),
   INDEX `fk_feedbacks_has_persons_feedbacks1_idx` (`feedbacks_id` ASC),
   CONSTRAINT `fk_feedbacks_has_persons_feedbacks1`
-    FOREIGN KEY (`feedbacks_id`)
-    REFERENCES `my_school`.`feedbacks` (`id`)
+  FOREIGN KEY (`feedbacks_id`)
+  REFERENCES `my_school`.`feedbacks` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_feedbacks_has_persons_persons1`
-    FOREIGN KEY (`persons_id`)
-    REFERENCES `my_school`.`persons` (`id`)
+  FOREIGN KEY (`persons_id`)
+  REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -480,26 +480,26 @@ CREATE TABLE IF NOT EXISTS `my_school`.`announcements` (
   INDEX `fk_announcements_sections1_idx` (`sections_id` ASC),
   INDEX `fk_announcements_persons1_idx` (`persons_id` ASC),
   CONSTRAINT `fk_announcements_schools1`
-    FOREIGN KEY (`schools_id`)
-    REFERENCES `my_school`.`schools` (`id`)
+  FOREIGN KEY (`schools_id`)
+  REFERENCES `my_school`.`schools` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_announcements_classes1`
-    FOREIGN KEY (`classes_id`)
-    REFERENCES `my_school`.`classes` (`id`)
+  FOREIGN KEY (`classes_id`)
+  REFERENCES `my_school`.`classes` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_announcements_sections1`
-    FOREIGN KEY (`sections_id`)
-    REFERENCES `my_school`.`sections` (`id`)
+  FOREIGN KEY (`sections_id`)
+  REFERENCES `my_school`.`sections` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_announcements_persons1`
-    FOREIGN KEY (`persons_id`)
-    REFERENCES `my_school`.`persons` (`id`)
+  FOREIGN KEY (`persons_id`)
+  REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -515,11 +515,11 @@ CREATE TABLE IF NOT EXISTS `my_school`.`notifications` (
   PRIMARY KEY (`id`),
   INDEX `fk_notifications_persons1_idx` (`persons_id` ASC),
   CONSTRAINT `fk_notifications_persons1`
-    FOREIGN KEY (`persons_id`)
-    REFERENCES `my_school`.`persons` (`id`)
+  FOREIGN KEY (`persons_id`)
+  REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -533,11 +533,22 @@ CREATE TABLE IF NOT EXISTS `my_school`.`bus_locations` (
   PRIMARY KEY (`id`),
   INDEX `fk_bus_locations_buses1_idx` (`buses_id` ASC),
   CONSTRAINT `fk_bus_locations_buses1`
-    FOREIGN KEY (`buses_id`)
-    REFERENCES `my_school`.`buses` (`id`)
+  FOREIGN KEY (`buses_id`)
+  REFERENCES `my_school`.`buses` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `my_school`.`event_categories`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `my_school`.`event_categories` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC))
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -552,32 +563,39 @@ CREATE TABLE IF NOT EXISTS `my_school`.`events` (
   `classes_id` INT NOT NULL,
   `sections_id` INT NOT NULL,
   `persons_id` INT NOT NULL,
+  `event_categories_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_events_schools1_idx` (`schools_id` ASC),
   INDEX `fk_events_classes1_idx` (`classes_id` ASC),
   INDEX `fk_events_sections1_idx` (`sections_id` ASC),
   INDEX `fk_events_persons1_idx` (`persons_id` ASC),
+  INDEX `fk_events_event_categories1_idx` (`event_categories_id` ASC),
   CONSTRAINT `fk_events_schools1`
-    FOREIGN KEY (`schools_id`)
-    REFERENCES `my_school`.`schools` (`id`)
+  FOREIGN KEY (`schools_id`)
+  REFERENCES `my_school`.`schools` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_events_classes1`
-    FOREIGN KEY (`classes_id`)
-    REFERENCES `my_school`.`classes` (`id`)
+  FOREIGN KEY (`classes_id`)
+  REFERENCES `my_school`.`classes` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_events_sections1`
-    FOREIGN KEY (`sections_id`)
-    REFERENCES `my_school`.`sections` (`id`)
+  FOREIGN KEY (`sections_id`)
+  REFERENCES `my_school`.`sections` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_events_persons1`
-    FOREIGN KEY (`persons_id`)
-    REFERENCES `my_school`.`persons` (`id`)
+  FOREIGN KEY (`persons_id`)
+  REFERENCES `my_school`.`persons` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_events_event_categories1`
+  FOREIGN KEY (`event_categories_id`)
+  REFERENCES `my_school`.`event_categories` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -592,11 +610,11 @@ CREATE TABLE IF NOT EXISTS `my_school`.`forums` (
   PRIMARY KEY (`id`),
   INDEX `fk_forums_persons1_idx` (`creator_persons_id` ASC),
   CONSTRAINT `fk_forums_persons1`
-    FOREIGN KEY (`creator_persons_id`)
-    REFERENCES `my_school`.`persons` (`id`)
+  FOREIGN KEY (`creator_persons_id`)
+  REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -612,16 +630,16 @@ CREATE TABLE IF NOT EXISTS `my_school`.`forum_posts` (
   INDEX `fk_forum_comments_forums1_idx` (`forums_id` ASC),
   INDEX `fk_forum_comments_persons1_idx` (`persons_id` ASC),
   CONSTRAINT `fk_forum_comments_forums10`
-    FOREIGN KEY (`forums_id`)
-    REFERENCES `my_school`.`forums` (`id`)
+  FOREIGN KEY (`forums_id`)
+  REFERENCES `my_school`.`forums` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_forum_comments_persons11`
-    FOREIGN KEY (`persons_id`)
-    REFERENCES `my_school`.`persons` (`id`)
+  FOREIGN KEY (`persons_id`)
+  REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -637,16 +655,16 @@ CREATE TABLE IF NOT EXISTS `my_school`.`forum_comments` (
   INDEX `fk_forum_comments_persons1_idx` (`persons_id` ASC),
   INDEX `fk_forum_comments_forum_posts1_idx` (`forum_posts_id` ASC),
   CONSTRAINT `fk_forum_comments_persons1`
-    FOREIGN KEY (`persons_id`)
-    REFERENCES `my_school`.`persons` (`id`)
+  FOREIGN KEY (`persons_id`)
+  REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_forum_comments_forum_posts1`
-    FOREIGN KEY (`forum_posts_id`)
-    REFERENCES `my_school`.`forum_posts` (`id`)
+  FOREIGN KEY (`forum_posts_id`)
+  REFERENCES `my_school`.`forum_posts` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -664,21 +682,21 @@ CREATE TABLE IF NOT EXISTS `my_school`.`forum_replies` (
   INDEX `fk_forum_replies_forum_comments1_idx` (`forum_comments_id` ASC),
   INDEX `fk_forum_replies_forum_replies1_idx` (`forum_replies_id` ASC),
   CONSTRAINT `fk_forum_comments_persons10`
-    FOREIGN KEY (`persons_id`)
-    REFERENCES `my_school`.`persons` (`id`)
+  FOREIGN KEY (`persons_id`)
+  REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_forum_replies_forum_comments1`
-    FOREIGN KEY (`forum_comments_id`)
-    REFERENCES `my_school`.`forum_comments` (`id`)
+  FOREIGN KEY (`forum_comments_id`)
+  REFERENCES `my_school`.`forum_comments` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_forum_replies_forum_replies1`
-    FOREIGN KEY (`forum_replies_id`)
-    REFERENCES `my_school`.`forum_replies` (`id`)
+  FOREIGN KEY (`forum_replies_id`)
+  REFERENCES `my_school`.`forum_replies` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -691,11 +709,11 @@ CREATE TABLE IF NOT EXISTS `my_school`.`persons_metadata` (
   PRIMARY KEY (`id`),
   INDEX `fk_persons_metadata_persons1_idx` (`persons_id` ASC),
   CONSTRAINT `fk_persons_metadata_persons1`
-    FOREIGN KEY (`persons_id`)
-    REFERENCES `my_school`.`persons` (`id`)
+  FOREIGN KEY (`persons_id`)
+  REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
