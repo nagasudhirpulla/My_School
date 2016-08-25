@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS `my_school`.`persons` (
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `dob` DATETIME NULL,
+  `profile_pic` VARCHAR(150) NULL,
   PRIMARY KEY (`id`))
   ENGINE = InnoDB;
 
@@ -127,6 +128,7 @@ CREATE TABLE IF NOT EXISTS `my_school`.`teachers` (
   `from_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `to_date` DATETIME NULL,
   `qualification` VARCHAR(20) NULL,
+  `emp_numer` VARCHAR(15) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_teachers_persons1_idx` (`persons_id` ASC),
   INDEX `fk_teachers_schools1_idx` (`schools_id` ASC),
@@ -149,6 +151,7 @@ CREATE TABLE IF NOT EXISTS `my_school`.`teachers` (
 CREATE TABLE IF NOT EXISTS `my_school`.`parents` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `persons_id` INT NOT NULL,
+  `profession` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_parents_persons1_idx` (`persons_id` ASC),
   CONSTRAINT `fk_parents_persons1`
@@ -205,15 +208,14 @@ CREATE TABLE IF NOT EXISTS `my_school`.`students_has_parents` (
   `parents_id` INT NOT NULL,
   PRIMARY KEY (`students_id`, `parents_id`),
   INDEX `fk_students_has_parents_parents1_idx` (`parents_id` ASC),
-  INDEX `fk_students_has_parents_students1_idx` (`students_id` ASC),
   CONSTRAINT `fk_students_has_parents_students1`
   FOREIGN KEY (`students_id`)
-  REFERENCES `my_school`.`students` (`id`)
+  REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_students_has_parents_parents1`
   FOREIGN KEY (`parents_id`)
-  REFERENCES `my_school`.`parents` (`id`)
+  REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
   ENGINE = InnoDB;
@@ -322,9 +324,12 @@ CREATE TABLE IF NOT EXISTS `my_school`.`exams` (
   `subjects_id` INT NOT NULL,
   `max_marks` INT NOT NULL DEFAULT 100,
   `invigilator_persons_id` INT NOT NULL,
+  `syllabus` VARCHAR(500) NULL,
+  `sections_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_exams_subjects1_idx` (`subjects_id` ASC),
   INDEX `fk_exams_persons1_idx` (`invigilator_persons_id` ASC),
+  INDEX `fk_exams_sections1_idx` (`sections_id` ASC),
   CONSTRAINT `fk_exams_subjects1`
   FOREIGN KEY (`subjects_id`)
   REFERENCES `my_school`.`subjects` (`id`)
@@ -334,27 +339,8 @@ CREATE TABLE IF NOT EXISTS `my_school`.`exams` (
   FOREIGN KEY (`invigilator_persons_id`)
   REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-  ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `my_school`.`exams_has_sections`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `my_school`.`exams_has_sections` (
-  `exams_id` INT NOT NULL,
-  `sections_id` INT NOT NULL,
-  `from_time` DATETIME NULL,
-  `to_time` DATETIME NULL,
-  PRIMARY KEY (`exams_id`, `sections_id`),
-  INDEX `fk_exams_has_sections_sections1_idx` (`sections_id` ASC),
-  INDEX `fk_exams_has_sections_exams1_idx` (`exams_id` ASC),
-  CONSTRAINT `fk_exams_has_sections_exams1`
-  FOREIGN KEY (`exams_id`)
-  REFERENCES `my_school`.`exams` (`id`)
-    ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_exams_has_sections_sections1`
+  CONSTRAINT `fk_exams_sections1`
   FOREIGN KEY (`sections_id`)
   REFERENCES `my_school`.`sections` (`id`)
     ON DELETE NO ACTION
