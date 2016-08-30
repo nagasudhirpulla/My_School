@@ -457,7 +457,6 @@ CREATE TABLE IF NOT EXISTS `my_school`.`announcements` (
   `schools_id` INT NOT NULL,
   `classes_id` INT NOT NULL,
   `sections_id` INT NOT NULL,
-  `persons_id` INT NOT NULL,
   `content` VARCHAR(500) NOT NULL DEFAULT 'none',
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `subject` VARCHAR(150) NULL,
@@ -465,7 +464,6 @@ CREATE TABLE IF NOT EXISTS `my_school`.`announcements` (
   INDEX `fk_announcements_schools1_idx` (`schools_id` ASC),
   INDEX `fk_announcements_classes1_idx` (`classes_id` ASC),
   INDEX `fk_announcements_sections1_idx` (`sections_id` ASC),
-  INDEX `fk_announcements_persons1_idx` (`persons_id` ASC),
   CONSTRAINT `fk_announcements_schools1`
   FOREIGN KEY (`schools_id`)
   REFERENCES `my_school`.`schools` (`id`)
@@ -479,11 +477,6 @@ CREATE TABLE IF NOT EXISTS `my_school`.`announcements` (
   CONSTRAINT `fk_announcements_sections1`
   FOREIGN KEY (`sections_id`)
   REFERENCES `my_school`.`sections` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_announcements_persons1`
-  FOREIGN KEY (`persons_id`)
-  REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
   ENGINE = InnoDB;
@@ -546,16 +539,15 @@ CREATE TABLE IF NOT EXISTS `my_school`.`events` (
   `name` VARCHAR(150) NOT NULL,
   `description` VARCHAR(300) NULL,
   `event_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `schools_id` INT NOT NULL,
   `classes_id` INT NOT NULL,
   `sections_id` INT NOT NULL,
-  `persons_id` INT NOT NULL,
   `event_categories_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_events_schools1_idx` (`schools_id` ASC),
   INDEX `fk_events_classes1_idx` (`classes_id` ASC),
   INDEX `fk_events_sections1_idx` (`sections_id` ASC),
-  INDEX `fk_events_persons1_idx` (`persons_id` ASC),
   INDEX `fk_events_event_categories1_idx` (`event_categories_id` ASC),
   CONSTRAINT `fk_events_schools1`
   FOREIGN KEY (`schools_id`)
@@ -570,11 +562,6 @@ CREATE TABLE IF NOT EXISTS `my_school`.`events` (
   CONSTRAINT `fk_events_sections1`
   FOREIGN KEY (`sections_id`)
   REFERENCES `my_school`.`sections` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_events_persons1`
-  FOREIGN KEY (`persons_id`)
-  REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_events_event_categories1`
@@ -696,6 +683,50 @@ CREATE TABLE IF NOT EXISTS `my_school`.`persons_metadata` (
   PRIMARY KEY (`id`),
   INDEX `fk_persons_metadata_persons1_idx` (`persons_id` ASC),
   CONSTRAINT `fk_persons_metadata_persons1`
+  FOREIGN KEY (`persons_id`)
+  REFERENCES `my_school`.`persons` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+  ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `my_school`.`announcements_has_persons`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `my_school`.`announcements_has_persons` (
+  `announcements_id` INT NOT NULL,
+  `persons_id` INT NOT NULL,
+  PRIMARY KEY (`announcements_id`, `persons_id`),
+  INDEX `fk_announcements_has_persons_persons1_idx` (`persons_id` ASC),
+  INDEX `fk_announcements_has_persons_announcements1_idx` (`announcements_id` ASC),
+  CONSTRAINT `fk_announcements_has_persons_announcements1`
+  FOREIGN KEY (`announcements_id`)
+  REFERENCES `my_school`.`announcements` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_announcements_has_persons_persons1`
+  FOREIGN KEY (`persons_id`)
+  REFERENCES `my_school`.`persons` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+  ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `my_school`.`events_has_persons`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `my_school`.`events_has_persons` (
+  `events_id` INT NOT NULL,
+  `persons_id` INT NOT NULL,
+  PRIMARY KEY (`events_id`, `persons_id`),
+  INDEX `fk_events_has_persons_persons1_idx` (`persons_id` ASC),
+  INDEX `fk_events_has_persons_events1_idx` (`events_id` ASC),
+  CONSTRAINT `fk_events_has_persons_events1`
+  FOREIGN KEY (`events_id`)
+  REFERENCES `my_school`.`events` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_events_has_persons_persons1`
   FOREIGN KEY (`persons_id`)
   REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
