@@ -489,16 +489,8 @@ CREATE TABLE IF NOT EXISTS `my_school`.`notifications` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `content` VARCHAR(100) NOT NULL,
   `metadata` VARCHAR(100) NULL,
-  `is_checked` VARCHAR(1) NOT NULL DEFAULT 0,
-  `persons_id` INT NOT NULL,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  INDEX `fk_notifications_persons1_idx` (`persons_id` ASC),
-  CONSTRAINT `fk_notifications_persons1`
-  FOREIGN KEY (`persons_id`)
-  REFERENCES `my_school`.`persons` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`id`))
   ENGINE = InnoDB;
 
 
@@ -731,6 +723,29 @@ CREATE TABLE IF NOT EXISTS `my_school`.`events_has_persons` (
   REFERENCES `my_school`.`persons` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+  ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `my_school`.`notifications_has_persons`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `my_school`.`notifications_has_persons` (
+  `notifications_id` INT NOT NULL,
+  `persons_id` INT NOT NULL,
+  `is_checked` VARCHAR(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`notifications_id`, `persons_id`),
+  INDEX `fk_notifications_has_persons_persons1_idx` (`persons_id` ASC),
+  INDEX `fk_notifications_has_persons_notifications1_idx` (`notifications_id` ASC),
+  CONSTRAINT `fk_notifications_has_persons_notifications1`
+  FOREIGN KEY (`notifications_id`)
+  REFERENCES `my_school`.`notifications` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_notifications_has_persons_persons1`
+  FOREIGN KEY (`persons_id`)
+  REFERENCES `my_school`.`persons` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
   ENGINE = InnoDB;
 
 
